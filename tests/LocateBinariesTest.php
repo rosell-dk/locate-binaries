@@ -15,9 +15,18 @@ class LocateBinariesTest extends TestCase
 
     public function testLocateInCommonSystemPaths()
     {
-        $binary = ($this->isWin() ? 'where' : 'ls');
+        $binary = ($this->isWin() ? 'where.exe' : 'ls');
         $binaries = LocateBinaries::locateInCommonSystemPaths($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
+        echo "found: '" . implode("\n", $binaries) . "'";
+
+        if ($this->isWin()) {
+            // peek into C:\Windows\System32
+            ExecWithFallback::exec('DIR C:\Windows\System32', $output, $returnCode);
+
+            echo "DIR: '" . implode("\r\n", $output) . "'";
+
+        }
     }
 
 
@@ -60,11 +69,11 @@ class LocateBinariesTest extends TestCase
     {
         //$whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         //if (count($whichBinaries) > 0) {
-        $binary = ($this->isWin() ? 'where' : 'ls');
+        $binary = ($this->isWin() ? 'where.exe' : 'ls');
         $binaries = LocateBinaries::locateInstalledBinaries($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
         //}
-        echo "found:\n" . implode("\n", $binaries);
+        //echo "found:\n" . implode("\n", $binaries);
     }
 
     public function testLocateInstalledNoBinariesFound()
