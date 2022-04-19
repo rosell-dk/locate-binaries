@@ -48,7 +48,7 @@ class LocateBinariesTest extends TestCase
             $binaries = LocateBinaries::locateInstalledBinaries($binary);
             $this->assertGreaterThanOrEqual(1, count($binaries));
         //}
-        echo 'found:' . implode($binaries, "\n");
+        echo "found:\n" . implode("\n", $binaries);
     }
 
     public function testLocateInstalledNoBinariesFound()
