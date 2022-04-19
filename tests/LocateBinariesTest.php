@@ -8,12 +8,19 @@ use LocateBinaries\LocateBinaries;
 class LocateBinariesTest extends TestCase
 {
 
+    private function isWin()
+    {
+        return (stripos(PHP_OS, 'WIN') === 0);
+    }
+
     public function testLocateInCommonSystemPaths()
     {
-        $binaries = LocateBinaries::locateInCommonSystemPaths('ls');
+        $binary = ($this->isWin() ? 'DIR' : 'ls');
+        $binaries = LocateBinaries::locateInCommonSystemPaths($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
+/*
     public function testLocateBinariesUsingWhereIs()
     {
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
@@ -32,14 +39,16 @@ class LocateBinariesTest extends TestCase
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
-
+*/
     public function testLocateInstalledBinaries()
     {
-        $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
-        if (count($whichBinaries) > 0) {
-            $binaries = LocateBinaries::locateInstalledBinaries('ls');
+        //$whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
+        //if (count($whichBinaries) > 0) {
+        $binary = ($this->isWin() ? 'where' : 'ls');
+            $binaries = LocateBinaries::locateInstalledBinaries($binary);
             $this->assertGreaterThanOrEqual(1, count($binaries));
-        }
+        //}
+        echo 'found:' . implode($binaries, "\n");
     }
 
     public function testLocateInstalledNoBinariesFound()

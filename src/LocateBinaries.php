@@ -27,13 +27,21 @@ class LocateBinaries
     {
         $binaries = [];
 
-        $commonSystemPaths = [
-            '/usr/bin',
-            '/usr/local/bin',
-            '/usr/gnu/bin',
-            '/usr/syno/bin',
-            '/bin',
-        ];
+        $commonSystemPaths = [];
+
+        if (stripos(PHP_OS, 'WIN') === 0) {
+            $commonSystemPaths = [
+                'C:\Windows\System32',
+            ];
+        } else {
+            $commonSystemPaths = [
+                '/usr/bin',
+                '/usr/local/bin',
+                '/usr/gnu/bin',
+                '/usr/syno/bin',
+                '/bin',
+            ];
+        }
 
         foreach ($commonSystemPaths as $dir) {
             // PS: FileExists might throw if exec() or similar is unavailable. We let it.
@@ -48,9 +56,9 @@ class LocateBinaries
     /**
      * locate installed binaries using ie "whereis -b cwebp"
      *
-     * @return array  Array of cwebp paths locateed (possibly empty)
+     * @return array  Array of paths locateed (possibly empty)
      */
-    public static function locateBinariesUsingWhereIs($binary)
+    private static function locateBinariesUsingWhereIs($binary)
     {
         ExecWithFallback::exec('whereis -b ' . $binary . ' 2>&1', $output, $returnCode);
         if (($returnCode == 0) && (isset($output[0]))) {
@@ -70,7 +78,7 @@ class LocateBinaries
      *
      * @return array  Array of paths locateed (possibly empty)
      */
-    public static function locateBinariesUsingWhich($binary)
+    private static function locateBinariesUsingWhich($binary)
     {
         // As suggested by @cantoute here:
         // https://wordpress.org/support/topic/sh-1-usr-local-bin-cwebp-not-found/
@@ -82,25 +90,50 @@ class LocateBinaries
     }
 
     /**
-     * locate binaries using "which -a" or, if that fails "whereis -b"
+     * Locate binaries using where.exe (for Windows)
      *
+     * @param  string $binary  the binary to look for (ie "cwebp")
+     *
+     * @return array binaries found
+     */
+    private static function locateBinariesUsingWhere($binary)
+    {
+        ExecWithFallback::exec('where.exe -a ' . $binary . ' 2>&1', $output, $returnCode);
+        if ($returnCode == 0) {
+            return $output;
+        }
+        return [];
+    }
+
+    /**
+     * Locate installed binaries
+     *
+     * For linuk, we use "which -a" or, if that fails "whereis -b"
+     * For Windows, we use "where.exe"
      * These commands only searces within $PATH. So it only finds installed binaries (which is good,
      * as it would be unsafe to deal with binaries found scattered around)
      *
      * @param  string $binary  the binary to look for (ie "cwebp")
      *
-     * @return array binaries found in common system locations
+     * @return array binaries found
      */
     public static function locateInstalledBinaries($binary)
     {
-        $paths = self::locateBinariesUsingWhich($binary);
-        if (count($paths) > 0) {
-            return $paths;
-        }
+        if (stripos(PHP_OS, 'WIN') === 0) {
+            $paths = self::locateBinariesUsingWhere($binary);
+            if (count($paths) > 0) {
+                return $paths;
+            }
+        } else {
+            $paths = self::locateBinariesUsingWhich($binary);
+            if (count($paths) > 0) {
+                return $paths;
+            }
 
-        $paths = self::locateBinariesUsingWhereIs($binary);
-        if (count($paths) > 0) {
-            return $paths;
+            $paths = self::locateBinariesUsingWhereIs($binary);
+            if (count($paths) > 0) {
+                return $paths;
+            }
         }
         return [];
     }
