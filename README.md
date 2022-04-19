@@ -21,9 +21,10 @@ Note that you get an array of matches - there may be more versions of a binary o
 PS: The library uses the [exec-with-fallback](https://github.com/rosell-dk/exec-with-fallback) library in order to be able to use alternatives to exec() when exec() is disabled.
 
 
-The library also adds another method for locating binaries by peeking in common system paths, such as *usr/bin*.
-However, beware that these dirs could be subject to open_basedir restrictions which would lead to warning entries in the error log.
-Well warned, here it is:
+The library also adds another method for locating binaries by peeking in common system paths, such as *usr/bin* and `C:\Windows\System32`
+However, beware that these dirs could be subject to open_basedir restrictions which would lead to warning entries in the error log. The above methodd is therefore best.
+
+Well warned, here it is the alternative, which you in some cases might want to fall back to after trying the first.
 ```
 $binariesFound = LocateBinaries::locateInCommonSystemPaths('convert');
 ```
