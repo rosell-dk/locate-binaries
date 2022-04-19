@@ -19,15 +19,19 @@ class LocateBinariesTest extends TestCase
         $binary = ($this->isWin() ? 'where.exe' : 'ls');
         $binaries = LocateBinaries::locateInCommonSystemPaths($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
-        echo "found: '" . implode("\n", $binaries) . "'";
+        //echo "found: '" . implode("\n", $binaries) . "'";
 
+        /*
         if ($this->isWin()) {
             // peek into C:\Windows\System32
             ExecWithFallback::exec('DIR C:\Windows\System32', $output, $returnCode);
-
             echo "DIR: '" . implode("\r\n", $output) . "'";
-
         }
+        */
+        ExecWithFallback::exec('echo $PATH', $output, $returnCode);
+        echo 'PATH: "' . $output . '"';
+
+
     }
 
 
@@ -36,6 +40,19 @@ class LocateBinariesTest extends TestCase
         if ($this->isWin()) {
             return;
         }
+
+        echo "testing whereis...\n";
+        ExecWithFallback::exec('whereis -b ls 2>&1', $output, $returnCode);
+        echo "output:" . implode("\n", $output) . "\n";
+        ExecWithFallback::exec('whereis ls 2>&1', $output, $returnCode);
+        echo "output2:" . implode("\n", $output) . "\n";
+        ExecWithFallback::exec('whereis identify 2>&1', $output, $returnCode);
+        echo "output3:" . implode("\n", $output) . "\n";
+        ExecWithFallback::exec('whereis cwebp 2>&1', $output, $returnCode);
+        echo "output4:" . implode("\n", $output) . "\n";
+        ExecWithFallback::exec('whereis which 2>&1', $output, $returnCode);
+        echo "output5:" . implode("\n", $output) . "\n";
+
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
