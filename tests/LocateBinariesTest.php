@@ -61,8 +61,8 @@ class LocateBinariesTest extends TestCase
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
-            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['ls']);
-            //$this->assertGreaterThanOrEqual(1, count($binaries));
+            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['which']);
+            $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
 

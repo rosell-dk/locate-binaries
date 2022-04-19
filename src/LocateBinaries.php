@@ -64,7 +64,9 @@ class LocateBinaries
     private static function locateBinariesUsingWhereIs($binary)
     {
         $useBSwitch = (PHP_OS != 'Darwin');     // don't use -b switch on Mac
-        ExecWithFallback::exec('whereis ' . ($useBSwitch ? '-b ' : '') . $binary . ' 2>&1', $output, $returnCode);
+        $command = 'whereis ' . ($useBSwitch ? '-b ' : '') . $binary . ' 2>&1';
+        echo 'Command: ' . $command . "\n\r";
+        ExecWithFallback::exec($command, $output, $returnCode);
         if (($returnCode == 0) && (isset($output[0]))) {
             $result = $output[0];
             // Ie: "cwebp: /usr/bin/cwebp /usr/local/bin/cwebp"
