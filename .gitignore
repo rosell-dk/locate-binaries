@@ -1,0 +1,10 @@
+.php_cs.cache
+composer.lock
+composer.phar
+/vendor
+/tests/*.webp
+/tests/images/*.webp
+.idea
+/build
+coverage.clover
+.phpunit.result.cache
