@@ -29,7 +29,7 @@ class LocateBinariesTest extends TestCase
         }
         */
         ExecWithFallback::exec('echo $PATH', $output, $returnCode);
-        echo 'PATH: "' . $output . '"';
+        echo 'PATH: "' . implode("\n\r", $output) . '"';
 
 
     }
@@ -41,17 +41,22 @@ class LocateBinariesTest extends TestCase
             return;
         }
 
+        // whereis uses a hardcoded list of paths to search. which uses your PATH.
+        // You can print the list of paths whereis searches by running the following: sysctl user.cs_path
+        //
+        // https://apple.stackexchange.com/questions/287467/use-whereis-can-not-find-the-file-in-the-mac
         echo "testing whereis...\n";
-        ExecWithFallback::exec('whereis -b ls 2>&1', $output, $returnCode);
-        echo "output:" . implode("\n", $output) . "\n";
-        ExecWithFallback::exec('whereis ls 2>&1', $output, $returnCode);
-        echo "output2:" . implode("\n", $output) . "\n";
-        ExecWithFallback::exec('whereis identify 2>&1', $output, $returnCode);
-        echo "output3:" . implode("\n", $output) . "\n";
-        ExecWithFallback::exec('whereis cwebp 2>&1', $output, $returnCode);
-        echo "output4:" . implode("\n", $output) . "\n";
         ExecWithFallback::exec('whereis which 2>&1', $output, $returnCode);
-        echo "output5:" . implode("\n", $output) . "\n";
+        if (($returnCode == 0) && (isset($output[0]))) {
+            echo "output:" . implode("\n", $output) . "\n";
+        }
+
+        ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output, $returnCode);
+        if (($returnCode == 0) && (isset($output[0]))) {
+            echo "output 2:" . implode("\n", $output) . "\n";
+        }
+
+
 
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
