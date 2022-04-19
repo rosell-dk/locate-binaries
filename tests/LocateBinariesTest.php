@@ -4,6 +4,7 @@ namespace LocateBinaries\Tests;
 
 use PHPUnit\Framework\TestCase;
 use LocateBinaries\LocateBinaries;
+use ExecWithFallback\ExecWithFallback;
 
 class LocateBinariesTest extends TestCase
 {
