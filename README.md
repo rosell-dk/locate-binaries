@@ -11,7 +11,7 @@ You need `exec()` or similar enabled for it to work. Otherwise, it will throw.
 
 Examples:
 
-To locate installed `cwebp` binaries (found with either `which` or `whereis`):
+To locate installed `cwebp` binaries (found on Linux with `which`, falling back to `whereis`; on Windows found using `where`):
 ```
 $binariesFound = LocateBinaries::locateInstalledBinaries('cwebp');
 ```
