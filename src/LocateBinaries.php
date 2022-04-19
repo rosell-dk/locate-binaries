@@ -57,13 +57,14 @@ class LocateBinaries
     }
 
     /**
-     * Locate installed binaries using ie "whereis -b cwebp" (for Linux, etc)
+     * Locate installed binaries using ie "whereis -b cwebp" (for Linux, Mac, etc)
      *
      * @return array  Array of paths locateed (possibly empty)
      */
     private static function locateBinariesUsingWhereIs($binary)
     {
-        ExecWithFallback::exec('whereis -b ' . $binary . ' 2>&1', $output, $returnCode);
+        $useBSwitch = (PHP_OS != 'Darwin');     // don't use -b switch on Mac
+        ExecWithFallback::exec('whereis ' . ($useBSwitch ? '-b ' : '') . $binary . ' 2>&1', $output, $returnCode);
         if (($returnCode == 0) && (isset($output[0]))) {
             $result = $output[0];
             // Ie: "cwebp: /usr/bin/cwebp /usr/local/bin/cwebp"
