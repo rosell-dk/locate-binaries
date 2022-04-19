@@ -50,14 +50,15 @@ class LocateBinariesTest extends TestCase
         // https://apple.stackexchange.com/questions/287467/use-whereis-can-not-find-the-file-in-the-mac
 
         echo "testing whereis...\n";
-        ExecWithFallback::exec('whereis which 2>&1', $output, $returnCode);
+        ExecWithFallback::exec('whereis bash 2>&1', $output, $returnCode);
         echo "returnCode:" . $returnCode;
+        //echo "isset' . isset($output[0]);
         echo "output:" . implode("\n", $output) . "\n";
 
-        //ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
-        ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
+        // ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
+        /*ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
         echo "returnCode:" . $returnCode2;
-        echo "output 2:" . implode("\n", $output2) . "\n";
+        echo "output 2:" . implode("\n", $output2) . "\n";*/
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
