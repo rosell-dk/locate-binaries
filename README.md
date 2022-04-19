@@ -1,4 +1,4 @@
-# Locate Binary
+# Locate Binaries
 
 [![Software License](https://img.shields.io/badge/license-MIT-418677.svg)](https://github.com/rosell-dk/locate-binary/blob/master/LICENSE)
 

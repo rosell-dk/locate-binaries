@@ -1,9 +1,9 @@
 {
-  "name": "rosell-dk/locate-binary",
-  "description": "Locate a binary by means of exec() or similar",
+  "name": "rosell-dk/locate-binaries",
+  "description": "Locate a binaries by means of exec() or similar",
   "type": "library",
   "license": "MIT",
-  "keywords": ["locate", "binary", "discover", "which"],
+  "keywords": ["locate", "binary", "whereis", "which", "discover"],
   "scripts": {
     "ci": [
       "@test",
@@ -40,10 +40,10 @@
       }
   },
   "autoload": {
-    "psr-4": { "LocateBinary\\": "src/" }
+    "psr-4": { "LocateBinaries\\": "src/" }
   },
   "autoload-dev": {
-    "psr-4": { "LocateBinary\\Tests\\": "tests/" }
+    "psr-4": { "LocateBinaries\\Tests\\": "tests/" }
   },
   "authors": [
     {

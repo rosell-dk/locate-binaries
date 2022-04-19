@@ -1,32 +1,32 @@
 <?php
 
-namespace LocateBinary\Tests;
+namespace LocateBinaries\Tests;
 
 use PHPUnit\Framework\TestCase;
-use LocateBinary\LocateBinary;
+use LocateBinaries\LocateBinaries;
 
-class LocateBinaryTest extends TestCase
+class LocateBinariesTest extends TestCase
 {
     public function testLocateInCommonSystemPaths()
     {
-        $binaries = LocateBinary::locateInCommonSystemPaths('ls');
+        $binaries = LocateBinaries::locateInCommonSystemPaths('ls');
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
     public function locateBinariesUsingWhereIs()
     {
-        $whereIsBinaries = LocateBinary::locateInCommonSystemPaths('whereis');
+        $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
-            $binaries = LocateBinary::locateBinariesUsingWhereIs('ls');
+            $binaries = LocateBinaries::locateBinariesUsingWhereIs('ls');
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
 
     public function locateBinariesUsingWhich()
     {
-        $whichBinaries = LocateBinary::locateInCommonSystemPaths('which');
+        $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         if (count($whichBinaries) > 0) {
-            $binaries = LocateBinary::locateBinariesUsingWhich('ls');
+            $binaries = LocateBinaries::locateBinariesUsingWhich('ls');
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace LocateBinary;
+namespace LocateBinaries;
 
 use FileUtil\FileExists;
 use ExecWithFallback\ExecWithFallback;
@@ -8,10 +8,10 @@ use ExecWithFallback\ExecWithFallback;
 /**
  * Locate path (or multiple paths) of a binary
  *
- * @package    LocateBinary
+ * @package    LocateBinaries
  * @author     Bjørn Rosell <it@rosell.dk>
  */
-class LocateBinary
+class LocateBinaries
 {
 
     /**
