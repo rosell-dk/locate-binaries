@@ -65,7 +65,6 @@ class LocateBinaries
     {
         $isMac = (PHP_OS != 'Darwin');
         $command = 'whereis ' . ($isMac ? '-b ' : '') . $binary . ' 2>&1';
-        echo 'Command: ' . $command . "\n\r";
         ExecWithFallback::exec($command, $output, $returnCode);
         if (($returnCode == 0) && (isset($output[0]))) {
             $result = $output[0];
