@@ -18,6 +18,8 @@ class LocateBinaries
      * Locate binaries by looking in common system paths.
      *
      * We try a small set of common system paths, such as "/usr/bin".
+     * On Windows, we only try C:\Windows\System32
+     * Note that you do not have to add ".exe" file extension on Windows, it is taken care of
      *
      * @param  string $binary  the binary to look for (ie "cwebp")
      *
@@ -33,6 +35,7 @@ class LocateBinaries
             $commonSystemPaths = [
                 'C:\Windows\System32',
             ];
+            $binary .= '.exe';
         } else {
             $commonSystemPaths = [
                 '/usr/bin',
@@ -46,15 +49,15 @@ class LocateBinaries
         foreach ($commonSystemPaths as $dir) {
             // PS: FileExists might throw if exec() or similar is unavailable. We let it.
             // - this class assumes exec is available
-            if (FileExists::fileExistsTryHarder($dir . '/' . $binary)) {
-                $binaries[] = $dir . '/' . $binary;
+            if (FileExists::fileExistsTryHarder($dir . DIRECTORY_SEPARATOR . $binary)) {
+                $binaries[] = $dir . DIRECTORY_SEPARATOR . $binary;
             }
         }
         return $binaries;
     }
 
     /**
-     * locate installed binaries using ie "whereis -b cwebp"
+     * Locate installed binaries using ie "whereis -b cwebp" (for Linux, etc)
      *
      * @return array  Array of paths locateed (possibly empty)
      */
