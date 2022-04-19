@@ -15,38 +15,54 @@ class LocateBinariesTest extends TestCase
 
     public function testLocateInCommonSystemPaths()
     {
-        $binary = ($this->isWin() ? 'DIR' : 'ls');
+        $binary = ($this->isWin() ? 'where' : 'ls');
         $binaries = LocateBinaries::locateInCommonSystemPaths($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
-/*
+
     public function testLocateBinariesUsingWhereIs()
     {
+        if ($this->isWin()) {
+            return;
+        }
+
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
-        //$this->assertGreaterThanOrEqual(1, count($whereIsBinaries));
         if (count($whereIsBinaries) > 0) {
-            $binaries = LocateBinaries::locateBinariesUsingWhereIs('ls');
+            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['ls']);
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
 
     public function testLocateBinariesUsingWhich()
     {
+        if ($this->isWin()) {
+            return;
+        }
         $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         if (count($whichBinaries) > 0) {
-            $binaries = LocateBinaries::locateBinariesUsingWhich('ls');
+            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhich', ['ls']);
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
-*/
+
+    public function testLocateBinariesUsingWhere()
+    {
+        if (!$this->isWin()) {
+            return;
+        }
+        $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhere', ['where']);
+        $this->assertGreaterThanOrEqual(1, count($binaries));
+    }
+
+
     public function testLocateInstalledBinaries()
     {
         //$whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         //if (count($whichBinaries) > 0) {
         $binary = ($this->isWin() ? 'where' : 'ls');
-            $binaries = LocateBinaries::locateInstalledBinaries($binary);
-            $this->assertGreaterThanOrEqual(1, count($binaries));
+        $binaries = LocateBinaries::locateInstalledBinaries($binary);
+        $this->assertGreaterThanOrEqual(1, count($binaries));
         //}
         echo "found:\n" . implode("\n", $binaries);
     }
