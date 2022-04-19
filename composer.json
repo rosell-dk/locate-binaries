@@ -53,7 +53,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4",
+    "php": ">=5.6",
     "rosell-dk/exec-with-fallback": "^1.0.0",
     "rosell-dk/file-util": "^0.1.0"
   },
