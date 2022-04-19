@@ -55,7 +55,7 @@ class LocateBinariesTest extends TestCase
         echo "output:" . implode("\n", $output) . "\n";
 
         //ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
-        ExecWithFallback::exec('whereis -b which 2>&1 2>&1', $output2, $returnCode2);
+        ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
         echo "returnCode:" . $returnCode2;
         echo "output 2:" . implode("\n", $output2) . "\n";
 
