@@ -98,7 +98,7 @@ class LocateBinaries
      */
     private static function locateBinariesUsingWhere($binary)
     {
-        ExecWithFallback::exec('where.exe -a ' . $binary . ' 2>&1', $output, $returnCode);
+        ExecWithFallback::exec('where.exe ' . $binary . ' 2>&1', $output, $returnCode);
         if ($returnCode == 0) {
             return $output;
         }
