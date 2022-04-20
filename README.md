@@ -15,6 +15,8 @@ Works on Linux, Windows and Mac.
 
 To locate installed `cwebp` binaries (found on Linux with `which -a`, falling back to `whereis -b`; on Windows found using `where`):
 ```
+use LocateBinaries\LocateBinaries;
+
 $cwebBinariesFound = LocateBinaries::locateInstalledBinaries('cwebp');
 ```
 Note that you get an array of matches - there may be several versions of a binary on a system.
@@ -25,6 +27,12 @@ However, beware that these dirs could be subject to open_basedir restrictions wh
 Well warned, here it is the alternative, which you in some cases might want to fall back to after trying the first.
 ```
 $imagickBinariesFound = LocateBinaries::locateInCommonSystemPaths('convert');
+```
+
+## Installing
+Install with composer:
+```
+composer require rosell-dk/locate-binaries
 ```
 
 ## Notes
