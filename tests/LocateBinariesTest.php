@@ -16,7 +16,7 @@ class LocateBinariesTest extends TestCase
 
     public function testLocateInCommonSystemPaths()
     {
-        $binary = ($this->isWin() ? 'where.exe' : 'ls');
+        $binary = ($this->isWin() ? 'where' : 'ls');
         $binaries = LocateBinaries::locateInCommonSystemPaths($binary);
         $this->assertGreaterThanOrEqual(1, count($binaries));
         //echo "found: '" . implode("\n", $binaries) . "'";
@@ -28,12 +28,11 @@ class LocateBinariesTest extends TestCase
             echo "DIR: '" . implode("\r\n", $output) . "'";
         }
         */
-
+/*
         echo 'OS: "' . PHP_OS . '"' . "\n\r";
-
         ExecWithFallback::exec('echo $PATH', $output, $returnCode);
         echo 'PATH: "' . implode("\n\r", $output) . '"';
-
+*/
 
     }
 
@@ -75,11 +74,14 @@ class LocateBinariesTest extends TestCase
         if (count($whereIsBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['which']);
             echo "output (locateBinariesUsingWhereIs which):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
+            $this->assertIsArray($binaries);
+            $this->assertGreaterThanOrEqual(1, count($binaries));
 
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
             echo "output (locateBinariesUsingWhereIs aoeuaoeu):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
+            $this->assertIsArray($binaries);
+            $this->assertEquals(0, count($binaries));
 
-            //$this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
 
@@ -91,6 +93,7 @@ class LocateBinariesTest extends TestCase
         $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         if (count($whichBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhich', ['ls']);
+            $this->assertIsArray($binaries);
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
@@ -101,16 +104,18 @@ class LocateBinariesTest extends TestCase
             return;
         }
         $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhere', ['where']);
+        $this->assertIsArray($binaries);
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
-/*
+
     public function testLocateInstalledBinaries()
     {
         //$whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         //if (count($whichBinaries) > 0) {
         $binary = ($this->isWin() ? 'where.exe' : 'ls');
         $binaries = LocateBinaries::locateInstalledBinaries($binary);
+        $this->assertIsArray($binaries);
         $this->assertGreaterThanOrEqual(1, count($binaries));
         //}
         //echo "found:\n" . implode("\n", $binaries);
@@ -119,8 +124,10 @@ class LocateBinariesTest extends TestCase
     public function testLocateInstalledNoBinariesFound()
     {
         $binaries = LocateBinaries::locateInstalledBinaries('lsbananaflip');
+        $this->assertIsArray($binaries);
         $this->assertEquals(0, count($binaries));
-    }*/
+    }
+
 /*
     public function testLocateInstalledNoExecAvail()
     {
