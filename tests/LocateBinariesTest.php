@@ -73,7 +73,7 @@ class LocateBinariesTest extends TestCase
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['bash']);
-            echo 'whereis bash: ' . print_r($binaries, true);
+            //echo 'whereis bash: ' . print_r($binaries, true);
             $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
             $this->assertFalse(strpos($binaries[0], ' ')); // make sure there is no space in result

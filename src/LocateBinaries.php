@@ -31,6 +31,8 @@ class LocateBinaries
 
         $commonSystemPaths = [];
 
+        // TODO: Maybe check $PATH instead of using hardcoded paths?
+
         if (stripos(PHP_OS, 'WIN') === 0) {
             $commonSystemPaths = [
                 'C:\Windows\System32',
