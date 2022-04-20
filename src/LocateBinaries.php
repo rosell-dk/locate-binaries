@@ -66,24 +66,30 @@ class LocateBinaries
         $isMac = (PHP_OS == 'Darwin');
         $command = 'whereis ' . ($isMac ? '' : '-b ') . $binary . ' 2>&1';
 
-        // Why does this not work on Mac?
-        // It seems output is a string rather than an array? TODO: check!
-        // Could it be my exec?
         ExecWithFallback::exec($command, $output, $returnCode);
-        echo 'command:' . $command . "\n";
-        echo 'output from whereis:' . print_r($output, true);
+        //echo 'command:' . $command;
+        //echo 'output:' . print_r($output, true);
+
         if (($returnCode == 0) && (isset($output[0]))) {
-            $result = $output[0];
-            if ($isMac) {
-                // Hm, actually I don't know how the result looks on Mac when there are several matches
-                // the following works when there is one match
-                return $output;
-            } else {
-                // Ie: "cwebp: /usr/bin/cwebp /usr/local/bin/cwebp"
-                if (preg_match('#^' . $binary . ':\s(.*)$#', $result, $matches)) {
-                    return explode(' ', $matches[1]);
-                }
+            // On linux, result looks like this:
+            // "cwebp: /usr/bin/cwebp /usr/local/bin/cwebp"
+            // or, for empty: "cwebp:"
+
+            if ($output[0] == ($binary . ':')) {
+                return [];
             }
+
+            // On mac, it is not prepended with name of binary.
+            // I don't know if mac returns one result per line or is space seperated
+            // As I don't know if some systems might return several lines,
+            // I assume that some do and convert to space-separation:
+            $result = implode(' ', $output);
+
+            // Next, lets remove the prepended binary (if exists)
+            $result = preg_replace('#\b' . $binary . ':\s?#', '', $result);
+
+            // And back to array
+            return explode(' ', $result);
         }
         return [];
     }

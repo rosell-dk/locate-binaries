@@ -48,11 +48,10 @@ class LocateBinariesTest extends TestCase
         //
         // https://apple.stackexchange.com/questions/287467/use-whereis-can-not-find-the-file-in-the-mac
 
-        echo "testing whereis...\n";
-        $output = [];
+/*        $output = [];
         ExecWithFallback::exec('echo hi && echo hi 2>&1', $output, $returnCode);
-        echo "output (echo)" . print_r($output, true) . "\n";
-
+        echo "output (echo)" . print_r($output, true) . "\n";*/
+/*
         $output = [];
         ExecWithFallback::exec('which -a bash 2>&1', $output, $returnCode);
         echo "output (which):" . print_r($output, true) . "\n";
@@ -64,6 +63,7 @@ class LocateBinariesTest extends TestCase
         $output = [];
         ExecWithFallback::exec('whereis aoeua 2>&1', $output, $returnCode);
         echo "output (whereis no result):" . print_r($output, true) . "\n";
+*/
 
         // ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
         /*ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
@@ -72,16 +72,15 @@ class LocateBinariesTest extends TestCase
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
-            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['which']);
-            echo "output (locateBinariesUsingWhereIs which):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
+            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['bash']);
+            echo 'whereis bash: ' . print_r($binaries, true);
             $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
+            $this->assertFalse(strpos($binaries[0], ' ')); // make sure there is no space in result
 
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
-            echo "output (locateBinariesUsingWhereIs aoeuaoeu):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
             $this->assertEquals('array', gettype($binaries));
             $this->assertEquals(0, count($binaries));
-
         }
     }
 
