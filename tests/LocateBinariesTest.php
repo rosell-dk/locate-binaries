@@ -74,12 +74,12 @@ class LocateBinariesTest extends TestCase
         if (count($whereIsBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['which']);
             echo "output (locateBinariesUsingWhereIs which):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
-            $this->assertIsArray($binaries);
+            $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
 
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
             echo "output (locateBinariesUsingWhereIs aoeuaoeu):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
-            $this->assertIsArray($binaries);
+            $this->assertEquals('array', gettype($binaries));
             $this->assertEquals(0, count($binaries));
 
         }
@@ -93,7 +93,7 @@ class LocateBinariesTest extends TestCase
         $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         if (count($whichBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhich', ['ls']);
-            $this->assertIsArray($binaries);
+            $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
@@ -104,7 +104,7 @@ class LocateBinariesTest extends TestCase
             return;
         }
         $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhere', ['where']);
-        $this->assertIsArray($binaries);
+        $this->assertEquals('array', gettype($binaries));
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
@@ -115,7 +115,7 @@ class LocateBinariesTest extends TestCase
         //if (count($whichBinaries) > 0) {
         $binary = ($this->isWin() ? 'where.exe' : 'ls');
         $binaries = LocateBinaries::locateInstalledBinaries($binary);
-        $this->assertIsArray($binaries);
+        $this->assertEquals('array', gettype($binaries));
         $this->assertGreaterThanOrEqual(1, count($binaries));
         //}
         //echo "found:\n" . implode("\n", $binaries);
@@ -124,7 +124,7 @@ class LocateBinariesTest extends TestCase
     public function testLocateInstalledNoBinariesFound()
     {
         $binaries = LocateBinaries::locateInstalledBinaries('lsbananaflip');
-        $this->assertIsArray($binaries);
+        $this->assertEquals('array', gettype($binaries));
         $this->assertEquals(0, count($binaries));
     }
 
