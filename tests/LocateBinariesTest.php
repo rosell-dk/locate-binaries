@@ -50,10 +50,21 @@ class LocateBinariesTest extends TestCase
         // https://apple.stackexchange.com/questions/287467/use-whereis-can-not-find-the-file-in-the-mac
 
         echo "testing whereis...\n";
+        $output = [];
+        ExecWithFallback::exec('echo hi && echo hi 2>&1', $output, $returnCode);
+        echo "output (echo)" . print_r($output, true) . "\n";
+
+        $output = [];
+        ExecWithFallback::exec('which -a bash 2>&1', $output, $returnCode);
+        echo "output (which):" . print_r($output, true) . "\n";
+
+        $output = [];
         ExecWithFallback::exec('whereis bash 2>&1', $output, $returnCode);
-        echo "returnCode:" . $returnCode;
-        //echo "isset' . isset($output[0]);
-        echo "output:" . implode("\n", $output) . "\n";
+        echo "output (whereis):" . print_r($output, true) . "\n";
+
+        $output = [];
+        ExecWithFallback::exec('whereis aoeua 2>&1', $output, $returnCode);
+        echo "output (whereis no result):" . print_r($output, true) . "\n";
 
         // ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
         /*ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
@@ -63,7 +74,12 @@ class LocateBinariesTest extends TestCase
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
             $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['which']);
-            $this->assertGreaterThanOrEqual(1, count($binaries));
+            echo "output (locateBinariesUsingWhereIs which):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
+
+            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
+            echo "output (locateBinariesUsingWhereIs aoeuaoeu):" . print_r($binaries, true) . '(' . gettype($binaries) . ')' . "\n";
+
+            //$this->assertGreaterThanOrEqual(1, count($binaries));
         }
     }
 
@@ -88,7 +104,7 @@ class LocateBinariesTest extends TestCase
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
 
-
+/*
     public function testLocateInstalledBinaries()
     {
         //$whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
@@ -104,7 +120,7 @@ class LocateBinariesTest extends TestCase
     {
         $binaries = LocateBinaries::locateInstalledBinaries('lsbananaflip');
         $this->assertEquals(0, count($binaries));
-    }
+    }*/
 /*
     public function testLocateInstalledNoExecAvail()
     {
