@@ -7,24 +7,33 @@
 [![Minimum PHP Version](https://img.shields.io/packagist/php-v/rosell-dk/locate-binaries)](https://php.net)
 
 Just a little class for locating binaries.
-You need `exec()` or similar enabled for it to work. Otherwise, it will throw.
+You need `exec()`, `shell_exec()` or similar enabled for it to work. Otherwise, it will throw.
 
-Examples:
+Works on Linux, Windows and Mac.
 
-To locate installed `cwebp` binaries (found on Linux with `which`, falling back to `whereis`; on Windows found using `where`):
+## Usage
+
+To locate installed `cwebp` binaries (found on Linux with `which -a`, falling back to `whereis -b`; on Windows found using `where`):
 ```
-$binariesFound = LocateBinaries::locateInstalledBinaries('cwebp');
+$cwebBinariesFound = LocateBinaries::locateInstalledBinaries('cwebp');
 ```
-
-Note that you get an array of matches - there may be more versions of a binary on a system.
-
-PS: The library uses the [exec-with-fallback](https://github.com/rosell-dk/exec-with-fallback) library in order to be able to use alternatives to exec() when exec() is disabled.
-
+Note that you get an array of matches - there may be several versions of a binary on a system.
 
 The library also adds another method for locating binaries by peeking in common system paths, such as *usr/bin* and `C:\Windows\System32`
-However, beware that these dirs could be subject to open_basedir restrictions which would lead to warning entries in the error log. The above methodd is therefore best.
+However, beware that these dirs could be subject to open_basedir restrictions which can lead to warning entries in the error log. The other method is therefore best.
 
 Well warned, here it is the alternative, which you in some cases might want to fall back to after trying the first.
 ```
-$binariesFound = LocateBinaries::locateInCommonSystemPaths('convert');
+$imagickBinariesFound = LocateBinaries::locateInCommonSystemPaths('convert');
 ```
+
+## Notes
+The library uses the [exec-with-fallback](https://github.com/rosell-dk/exec-with-fallback) library in order to be able to use alternatives to exec() when exec() is disabled.
+
+## Do you like what I do?
+Perhaps you want to support my work, so I can continue doing it :)
+
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/rosell).
+- [Buy me a Coffee](https://ko-fi.com/rosell)
+
+Thanks!
