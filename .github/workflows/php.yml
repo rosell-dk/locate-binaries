@@ -113,6 +113,11 @@ jobs:
         # PS: If we needed COVERAGE elsewhere, we could store in ENV like this:
         # echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
 
+    - name: Verify Cloudflare token
+      run: |
+        curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+          "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/tokens/verify"
+
     - name: Upload coverage report
       run: npx wrangler@4 deploy
       env:
