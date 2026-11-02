@@ -94,6 +94,10 @@ jobs:
     - name: run phpcs (to check coding style)
       run: composer run-script phpcs-all
 
+    # Maybe create badge with a php script instead?
+    # - name: Create coverage badge json
+    #  run: composer run-script create-coverage-badge
+
     - name: Create coverage badge json
       run: |
         # Extract total coverage
@@ -109,14 +113,18 @@ jobs:
         # PS: If we needed COVERAGE elsewhere, we could store in ENV like this:
         # echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
 
-    - name: Install SSH Key (for deployment of code coverage)
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.DEPLOY_KEY }}
-        known_hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
-
-    - name: Upload code coverage report
-      run: |
-        sh -c "rsync -rtog --chown :www-data $GITHUB_WORKSPACE/build/ $DEPLOY_DESTINATION --delete"
+    - name: Upload coverage report
+      run: npx wrangler@4 deploy
       env:
-        DEPLOY_DESTINATION: ${{ secrets.DEPLOY_DESTINATION }}
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    #- name: Install SSH Key (for deployment of code coverage)
+    #  uses: shimataro/ssh-key-action@v2
+    #  with:
+    #    key: ${{ secrets.DEPLOY_KEY }}
+    #    known_hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+
+    #- name: Upload code coverage report
+    #  run: |
+    #    sh -c "rsync -rtog --chown :www-data $GITHUB_WORKSPACE/build/ $DEPLOY_DESTINATION --delete"
+    #  env:
+    #    DEPLOY_DESTINATION: ${{ secrets.DEPLOY_DESTINATION }}
