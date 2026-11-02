@@ -17,6 +17,11 @@
     "test-41": "phpunit --no-coverage --configuration 'phpunit-41.xml.dist'",
     "test-with-coverage": "phpunit --coverage-text --configuration 'phpunit-with-coverage.xml.dist'",
     "test-41-with-coverage": "phpunit --coverage-text --configuration 'phpunit-41.xml.dist'",
+    "create-coverage-badge": "@php scripts/create-coverage-badge.php",
+    "coverage": [
+        "@test",
+        "@create-coverage-badge"
+    ],
     "cs-fix-all": [
       "php-cs-fixer fix src"
     ],
