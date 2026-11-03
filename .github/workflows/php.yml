@@ -116,7 +116,7 @@ jobs:
     - name: Verify Cloudflare token
       run: |
         curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-          "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/tokens/verify"
+          "https://api.cloudflare.com/client/v4/accounts/f67ffeb6637f4ca2957b5d91405b43ef/tokens/verify"
 
     - name: Upload coverage report
       run: npx wrangler@4 deploy
