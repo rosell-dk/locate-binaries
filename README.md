@@ -1,7 +1,7 @@
 # Locate Binaries
 
 [![Build Status](https://github.com/rosell-dk/locate-binaries/workflows/build/badge.svg)](https://github.com/rosell-dk/locate-binaries/actions/workflows/php.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://little-b.it/locate-binaries/code-coverage/coverage-badge.json)](http://little-b.it/locate-binaries/code-coverage/coverage/index.html)
+[![Coverage](https://img.shields.io/endpoint?url=https://locate-binaries.littlebit.workers.dev/coverage-badge.json)](https://locate-binaries.littlebit.workers.dev/coverage/index.html)
 [![Software License](https://img.shields.io/badge/license-MIT-418677.svg)](https://github.com/rosell-dk/locate-binary/blob/master/LICENSE)
 [![Latest Stable Version](https://img.shields.io/packagist/v/rosell-dk/locate-binaries.svg)](https://packagist.org/packages/rosell-dk/locate-binaries)
 [![Minimum PHP Version](https://img.shields.io/packagist/php-v/rosell-dk/locate-binaries)](https://php.net)

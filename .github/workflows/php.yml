@@ -90,12 +90,11 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           ${{ runner.os }}-php-${{ matrix.php }}
           ${{ runner.os }}-php-
 
@@ -131,12 +130,7 @@ jobs:
         # PS: If we needed COVERAGE elsewhere, we could store in ENV like this:
         # echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
 
-    - name: Verify Cloudflare token
-      run: |
-        curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-          "https://api.cloudflare.com/client/v4/accounts/f67ffeb6637f4ca2957b5d91405b43ef/tokens/verify"
-
-    - name: Upload coverage report
+    - name: Deploy coverage report
       run: npx wrangler@4 deploy
       env:
         CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
