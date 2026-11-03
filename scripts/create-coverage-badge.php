@@ -35,7 +35,7 @@ $badge = [
 
 file_put_contents(
     $badgeFile,
-    json_encode($badge, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
+    json_encode($badge, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
 );
 
 echo "Coverage badge created: $coverage ($color)\n";

@@ -8,7 +8,6 @@ use ExecWithFallback\ExecWithFallback;
 
 class LocateBinariesTest extends TestCase
 {
-
     private function isWin()
     {
         return (stripos(PHP_OS, 'WIN') === 0);
@@ -28,11 +27,11 @@ class LocateBinariesTest extends TestCase
             echo "DIR: '" . implode("\r\n", $output) . "'";
         }
         */
-/*
-        echo 'OS: "' . PHP_OS . '"' . "\n\r";
-        ExecWithFallback::exec('echo $PATH', $output, $returnCode);
-        echo 'PATH: "' . implode("\n\r", $output) . '"';
-*/
+        /*
+                echo 'OS: "' . PHP_OS . '"' . "\n\r";
+                ExecWithFallback::exec('echo $PATH', $output, $returnCode);
+                echo 'PATH: "' . implode("\n\r", $output) . '"';
+        */
 
     }
 
@@ -48,22 +47,22 @@ class LocateBinariesTest extends TestCase
         //
         // https://apple.stackexchange.com/questions/287467/use-whereis-can-not-find-the-file-in-the-mac
 
-/*        $output = [];
-        ExecWithFallback::exec('echo hi && echo hi 2>&1', $output, $returnCode);
-        echo "output (echo)" . print_r($output, true) . "\n";*/
-/*
-        $output = [];
-        ExecWithFallback::exec('which -a bash 2>&1', $output, $returnCode);
-        echo "output (which):" . print_r($output, true) . "\n";
+        /*        $output = [];
+                ExecWithFallback::exec('echo hi && echo hi 2>&1', $output, $returnCode);
+                echo "output (echo)" . print_r($output, true) . "\n";*/
+        /*
+                $output = [];
+                ExecWithFallback::exec('which -a bash 2>&1', $output, $returnCode);
+                echo "output (which):" . print_r($output, true) . "\n";
 
-        $output = [];
-        ExecWithFallback::exec('whereis bash 2>&1', $output, $returnCode);
-        echo "output (whereis):" . print_r($output, true) . "\n";
+                $output = [];
+                ExecWithFallback::exec('whereis bash 2>&1', $output, $returnCode);
+                echo "output (whereis):" . print_r($output, true) . "\n";
 
-        $output = [];
-        ExecWithFallback::exec('whereis aoeua 2>&1', $output, $returnCode);
-        echo "output (whereis no result):" . print_r($output, true) . "\n";
-*/
+                $output = [];
+                ExecWithFallback::exec('whereis aoeua 2>&1', $output, $returnCode);
+                echo "output (whereis no result):" . print_r($output, true) . "\n";
+        */
 
         // ExecWithFallback::exec('sysctl user.cs_path 2>&1', $output2, $returnCode2);
         /*ExecWithFallback::exec('whereis -b which 2>&1', $output2, $returnCode2);
@@ -72,13 +71,13 @@ class LocateBinariesTest extends TestCase
 
         $whereIsBinaries = LocateBinaries::locateInCommonSystemPaths('whereis');
         if (count($whereIsBinaries) > 0) {
-            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['bash']);
+            $binaries = MethodInvoker::invoke(new LocateBinaries(), 'locateBinariesUsingWhereIs', ['bash']);
             //echo 'whereis bash: ' . print_r($binaries, true);
             $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
             $this->assertFalse(strpos($binaries[0], ' ')); // make sure there is no space in result
 
-            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
+            $binaries = MethodInvoker::invoke(new LocateBinaries(), 'locateBinariesUsingWhereIs', ['aoeuaoeu']);
             $this->assertEquals('array', gettype($binaries));
             $this->assertEquals(0, count($binaries));
         }
@@ -91,7 +90,7 @@ class LocateBinariesTest extends TestCase
         }
         $whichBinaries = LocateBinaries::locateInCommonSystemPaths('which');
         if (count($whichBinaries) > 0) {
-            $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhich', ['ls']);
+            $binaries = MethodInvoker::invoke(new LocateBinaries(), 'locateBinariesUsingWhich', ['ls']);
             $this->assertEquals('array', gettype($binaries));
             $this->assertGreaterThanOrEqual(1, count($binaries));
         }
@@ -102,7 +101,7 @@ class LocateBinariesTest extends TestCase
         if (!$this->isWin()) {
             return;
         }
-        $binaries = MethodInvoker::invoke(new LocateBinaries, 'locateBinariesUsingWhere', ['where']);
+        $binaries = MethodInvoker::invoke(new LocateBinaries(), 'locateBinariesUsingWhere', ['where']);
         $this->assertEquals('array', gettype($binaries));
         $this->assertGreaterThanOrEqual(1, count($binaries));
     }
@@ -127,13 +126,13 @@ class LocateBinariesTest extends TestCase
         $this->assertEquals(0, count($binaries));
     }
 
-/*
-    public function testLocateInstalledNoExecAvail()
-    {
-        // If no exec() is avail, we expect Exception... But how do we simulate that exec() is unavailable?
-        // $this->expectException(\Exception::class);
-        // how to test this?
-    }*/
+    /*
+        public function testLocateInstalledNoExecAvail()
+        {
+            // If no exec() is avail, we expect Exception... But how do we simulate that exec() is unavailable?
+            // $this->expectException(\Exception::class);
+            // how to test this?
+        }*/
 
 
 }

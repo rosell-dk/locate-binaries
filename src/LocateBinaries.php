@@ -13,7 +13,6 @@ use ExecWithFallback\ExecWithFallback;
  */
 class LocateBinaries
 {
-
     /**
      * Locate binaries by looking in common system paths.
      *
